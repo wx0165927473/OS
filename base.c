@@ -137,7 +137,7 @@ void    svc( SYSTEM_CALL_DATA *SystemCallData ) {
     short               call_type;
     static short        do_print = 10;
 //    short               i;
-    INT32               Time=24;
+    INT32               Time;
 
     call_type = (short)SystemCallData->SystemCallNumber;
     if ( do_print > 0 ) {

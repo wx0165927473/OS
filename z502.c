@@ -2377,24 +2377,22 @@ void ChangeThreadPriority(INT32 PriorityDirection) {
 
 #endif
 #if defined LINUX || defined MAC
-    // wuxin
 	// 09/2011 - I have attempted to make the interrupt thread a higher priority
 	// than the base thread but have not been successful.  It's possible to change
 	// the "nice" value for the whole process, but not for individual threads.
-	int                  policy;
-	struct sched_param   param;
-	int                  CurrentPriority;
-    INT32 ReturnValue;
-	CurrentPriority = getpriority( PRIO_PROCESS, 0 );
-	ReturnValue = setpriority( PRIO_PROCESS, 0, CurrentPriority - PriorityDirection );
-	ReturnValue = setpriority( PRIO_PROCESS, 0, 15 );
-	CurrentPriority = getpriority( PRIO_PROCESS, 0 );
-	ReturnValue = pthread_getschedparam( GetMyTid(), &policy, &param);
+	//int                  policy;
+	//struct sched_param   param;
+	//int                  CurrentPriority;
+	//CurrentPriority = getpriority( PRIO_PROCESS, 0 );
+	//ReturnValue = setpriority( PRIO_PROCESS, 0, CurrentPriority - PriorityDirection );
+	//ReturnValue = setpriority( PRIO_PROCESS, 0, 15 );
+	//CurrentPriority = getpriority( PRIO_PROCESS, 0 );
+	//ReturnValue = pthread_getschedparam( GetMyTid(), &policy, &param);
 
-	if ( ReturnValue == ESRCH || ReturnValue == EINVAL || ReturnValue == EPERM )
-	    printf( "ERROR in ChangeThreadPriority - Input parameters are wrong\n");
-	if ( ReturnValue == EACCES )
-	    printf( "ERROR in ChangeThreadPriority - Not privileged to do this!!\n");
+	//if ( ReturnValue == ESRCH || ReturnValue == EINVAL || ReturnValue == EPERM )
+	//    printf( "ERROR in ChangeThreadPriority - Input parameters are wrong\n");
+	//if ( ReturnValue == EACCES )
+	//    printf( "ERROR in ChangeThreadPriority - Not privileged to do this!!\n");
 
 #endif
 }                         // End of ChangeThreadPriority   
@@ -2471,7 +2469,7 @@ void CreateLock(INT32 *RequestedMutex, char *CallingRoutine) {
 	ErrorFound = pthread_mutexattr_init( &Attribute );
 	if ( ErrorFound != FALSE )
 	printf( "Error in pthread_mutexattr_init in CreateLock\n" );
-//	ErrorFound = pthread_mutexattr_settype( &Attribute, PTHREAD_MUTEX_ERRORCHECK_NP ); wuxin
+	ErrorFound = pthread_mutexattr_settype( &Attribute, PTHREAD_MUTEX_ERRORCHECK_NP );
 	if ( ErrorFound != FALSE )
 	printf( "Error in pthread_mutexattr_settype in CreateLock\n" );
 	ErrorFound = pthread_mutex_init( &(LocalMutex[NextMutexToAllocate]), &Attribute );
