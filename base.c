@@ -197,7 +197,7 @@ ProcessControlBlock *OSCreatProcess(void *identifier) {
     pcb->timeOfDelay = 100;
     
     Z502MakeContext(&pcb->context, (void *)identifier, USER_MODE);
-    Z502SwitchContext(SWITCH_CONTEXT_SAVE_MODE, &pcb->context);
+    Z502SwitchContext(SWITCH_CONTEXT_KILL_MODE, &pcb->context);
     return pcb;
 }
 
