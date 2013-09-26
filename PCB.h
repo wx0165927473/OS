@@ -20,5 +20,5 @@ typedef struct
     void                        *context;
 } ProcessControlBlock;
 
-
+void CreateProcess(void *indentifier);
 #endif

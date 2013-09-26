@@ -57,8 +57,7 @@ void    interrupt_handler( void ) {
     INT32              device_id;
     INT32              status;
     INT32              Index = 0;
-    
-    printf("xxxxxxxxxxx");
+   
     // Get cause of interrupt
     MEM_READ(Z502InterruptDevice, &device_id );
     // Set this device as target of our query
@@ -71,7 +70,7 @@ void    interrupt_handler( void ) {
     
     //take PCB off the timer queue
     timeQueue.head = NULL;
-    printf("take of  the PCB on the timer queue successfully \n");
+    printf("take off the PCB on the timer queue successfully \n");
 }                                       /* End of interrupt_handler */
 /************************************************************************
     FAULT_HANDLER
@@ -184,9 +183,8 @@ void    svc( SYSTEM_CALL_DATA *SystemCallData ) {
         defined and initialized here.
 ************************************************************************/
 
-#pragma mark - OSCreateProcess
 ProcessControlBlock *OSCreatProcess(void *identifier) {
-    
+
     ProcessControlBlock *pcb = (ProcessControlBlock *)calloc(1, sizeof(ProcessControlBlock));
     wholePointer = pcb;
     pcb->next_point = NULL;
@@ -195,7 +193,7 @@ ProcessControlBlock *OSCreatProcess(void *identifier) {
     pcb->proprity = 0;
     pcb->status = 1; //1 == running 0 == idle
     pcb->timeOfDelay = 100;
-    
+
     Z502MakeContext(&pcb->context, (void *)identifier, USER_MODE);
     Z502SwitchContext(SWITCH_CONTEXT_KILL_MODE, &pcb->context);
     return pcb;
