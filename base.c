@@ -153,7 +153,7 @@ void    svc( SYSTEM_CALL_DATA *SystemCallData ) {
         switch (call_type) {
             case SYSNUM_GET_TIME_OF_DAY:
                 Z502MemoryRead(Z502ClockStatus, &Time);
-                *SystemCallData->Argument[0] = Time;
+                *(int *)SystemCallData->Argument[0] = Time;
                 break;
                 
             case SYSNUM_TERMINATE_PROCESS:
