@@ -57,7 +57,7 @@ void    interrupt_handler( void ) {
     INT32              device_id;
     INT32              status;
     INT32              Index = 0;
-   
+
     // Get cause of interrupt
     MEM_READ(Z502InterruptDevice, &device_id );
     // Set this device as target of our query
@@ -67,9 +67,9 @@ void    interrupt_handler( void ) {
 
     // Clear out this device - we're done with it
     MEM_WRITE(Z502InterruptClear, &Index );
-    
+
     //take PCB off the timer queue
-    timeQueue.head = NULL;
+    //timeQueue.head = NULL;
     printf("take off the PCB on the timer queue successfully \n");
 }                                       /* End of interrupt_handler */
 /************************************************************************
@@ -113,17 +113,13 @@ void start_timer(SYSTEM_CALL_DATA *SystemCallData) {
     INT32 time_delay;
     INT32 Status;
     INT16 Z502_MODE;
-    
-    addToTimeQueue(*wholePointer);
-//    timeQueue.head = wholePointer;
-    printf("put PCB on the timeQueue successfully \n");
-    
+
     GET_TIME_OF_DAY(&time);
-    
+
     time_delay = (INT32)SystemCallData->Argument[0];
 	MEM_WRITE(Z502TimerStart, &time_delay);
     MEM_READ(Z502TimerStatus, &Status);
-    
+
 	if (Status == DEVICE_IN_USE){
 		printf("Got expected result for Status of Timer\n");
         Z502Idle();
@@ -148,25 +144,25 @@ void    svc( SYSTEM_CALL_DATA *SystemCallData ) {
 //             (unsigned long )SystemCallData->Argument[i]);
 //        }
     do_print--;
-        
+
         switch (call_type) {
             case SYSNUM_GET_TIME_OF_DAY:
                 Z502MemoryRead(Z502ClockStatus, &Time);
                 *(int *)SystemCallData->Argument[0] = Time;
                 break;
-                
+
             case SYSNUM_TERMINATE_PROCESS:
                 Z502Halt();
                 break;
-                
+
             case SYSNUM_SLEEP:
 
                 //svc hands control of the SLEEP request to start_timer, a routine YOU write.
                 //start_timer, enqueues the PCB of the running process onto the timer_queue.
-                
+
                 start_timer(SystemCallData);
                 break;
-    
+
             default:
                 printf("ERROR! call_type not recognized!\n");
                 printf("Call_type is - %i\n",call_type);
@@ -183,26 +179,10 @@ void    svc( SYSTEM_CALL_DATA *SystemCallData ) {
         defined and initialized here.
 ************************************************************************/
 
-ProcessControlBlock *OSCreatProcess(void *identifier) {
-
-    ProcessControlBlock *pcb = (ProcessControlBlock *)calloc(1, sizeof(ProcessControlBlock));
-    wholePointer = pcb;
-    pcb->next_point = NULL;
-    pcb->PID = 1;
-    pcb->mode = 0; //0 == UserMode 1 == KernelMode
-    pcb->proprity = 0;
-    pcb->status = 1; //1 == running 0 == idle
-    pcb->timeOfDelay = 100;
-
-    Z502MakeContext(&pcb->context, (void *)identifier, USER_MODE);
-    Z502SwitchContext(SWITCH_CONTEXT_KILL_MODE, &pcb->context);
-    return pcb;
-}
-
 void    osInit( int argc, char *argv[]  ) {
     void                *next_context;
     INT32               i;
-    
+
     /* Demonstrates how calling arguments are passed thru to here       */
 
     printf( "Program called with %d arguments:", argc );
@@ -228,6 +208,6 @@ void    osInit( int argc, char *argv[]  ) {
         test0 runs on a process recognized by the operating system.    */
 //    Z502MakeContext( &next_context, (void *)test1a, USER_MODE );
 //    Z502SwitchContext( SWITCH_CONTEXT_KILL_MODE, &next_context );
-    
+
     OSCreatProcess((void *)test1a);
 }                                               // End of osInit

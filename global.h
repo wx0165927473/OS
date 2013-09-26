@@ -28,9 +28,9 @@
 #define GLOBAL_H_
 
 #define         CURRENT_REL                     "4.00"
-//#define         NT
+#define         NT
 //#define        LINUX
-#define           MAC
+//#define           MAC
 
         /*      These are Portability enhancements              */
 
@@ -169,5 +169,15 @@ typedef         int                             BOOL;
 
 #define         USER_MODE                               (short)0
 #define         KERNEL_MODE                             (short)1
+
+#define         sortByPID                               0;
+#define         sortByPrority                           1;
+#define         sortByNature                            3;
+
+#define         User_mode                               0;
+#define         Kernel_mode                             1;
+
+#define         Waiting                                 0;
+#define         Running                                 1;
 
 #endif /* GLOBAL_H_ */
