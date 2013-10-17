@@ -8,17 +8,28 @@
 
 #ifndef Test0_PCB_h
 #define Test0_PCB_h
-typedef struct
+#include "global.h"
+
+typedef struct PCB
 {
     int                         PID;
-    char                        name;
+    char                        name[64];
     int                         status;
     int                         mode;
-    int                         proprity;
+    int                         priority;
     int                         timeOfDelay;
-    struct ProcessControlBlock  *next_point;
+    struct         PCB          *next_pcb;
     void                        *context;
-} ProcessControlBlock;
+}ProcessControlBlock;
 
-void CreateProcess(void *indentifier);
+ProcessControlBlock *current_running;
+int initPID;
+INT32 Result;
+
+void OSCreatProcess(ProcessControlBlock **p,void *identifier, char *name, int priority, int mode);
+void OSTerminateProcess(ProcessControlBlock *pcb);
+void OSTerminateCurrentRunning();
+void OSSuspendProcess(ProcessControlBlock *pcb);
+void OSResumeProcess(ProcessControlBlock *pcb);
+int dispatchProcess();
 #endif

@@ -28,8 +28,8 @@
 #define GLOBAL_H_
 
 #define         CURRENT_REL                     "4.00"
-#define         NT
-//#define        LINUX
+//#define         NT
+#define        LINUX
 //#define           MAC
 
         /*      These are Portability enhancements              */
@@ -112,6 +112,9 @@ typedef         int                             BOOL;
 #define      MEMORY_INTERLOCK_BASE     0x7FE00000
 #define      MEMORY_INTERLOCK_SIZE     0x00000100
 
+#define      ReadyQueue_LOCK           0x7FE00030
+#define      TimeQueue_LOCK            0x7FE00060
+
 /*  These are the device IDs that are produced when an interrupt
     or fault occurs.                                            */
         /* Definition of trap types.                            */
@@ -159,6 +162,16 @@ typedef         int                             BOOL;
 #define         DEVICE_FREE                             7L
 #define         ERR_Z502_INTERNAL_BUG                   20L
 #define         ERR_OS502_GENERATED_BUG                 21L
+#define         ERR_OVERFLOW_THREAD                     100L
+#define         ERR_ILLEGAL_PRIORITY                    101L
+#define         ERR_DUPLICATE_NAME                      102L
+#define         ERR_NO_SUCH_PID                         103L
+#define         ERR_PROCESS_NOT_EXIST                   104L
+#define         ERR_DUPLICATE_SUSPEND                   105L
+#define         ERR_RESUME_NOT_SUSPEND_PROCESS          106L
+#define         ERR_SUSPEND_OURSELF                     107L
+#define         ERR_ILLEGAL_MESSAGE_LENGTH              108L
+#define         ERR_OVERFLOW_MESSAGE                    109L
 
         /* Miscellaneous                                        */
 
@@ -170,14 +183,17 @@ typedef         int                             BOOL;
 #define         USER_MODE                               (short)0
 #define         KERNEL_MODE                             (short)1
 
-#define         sortByPID                               0;
-#define         sortByPrority                           1;
-#define         sortByNature                            3;
+#define         sortByPID                               0L
+#define         sortByPrority                           1L
+#define         sortByNature                            2L
 
-#define         User_mode                               0;
-#define         Kernel_mode                             1;
+#define         Waiting                                 0L
+#define         Running                                 1L
+#define         Suspending                              2L
 
-#define         Waiting                                 0;
-#define         Running                                 1;
+#define         DO_LOCK                                 1
+#define         DO_UNLOCK                               0
+#define         SUSPEND_UNTIL_LOCKED                    TRUE
+#define         DO_NOT_SUSPEND                          FALSE
 
 #endif /* GLOBAL_H_ */

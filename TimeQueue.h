@@ -1,21 +1,28 @@
 //
 //  TimeQueue.h
-//  Test0
+//  GitOS
 //
-//  Created by Wu Xin on 9/19/13.
+//  Created by Wu Xin on 10/3/13.
 //  Copyright (c) 2013 Wu Xin. All rights reserved.
 //
 
-#ifndef Test0_TimeQueue_h
-#define Test0_TimeQueue_h
+#ifndef GitOS_TimeQueue_h
+#define GitOS_TimeQueue_h
 #include "PCB.h"
+#include "global.h"
 
 typedef struct
 {
-    void *head;
-    ProcessControlBlock *nextPCB;
+    ProcessControlBlock *QueueHead;
+    int length;
     
 } TimeQueue;
 
-void addToTimeQueue(ProcessControlBlock nextPCB);
+TimeQueue            *timeQueue;
+
+void addToTimeQueue(TimeQueue *queue, ProcessControlBlock *PCB);
+BOOL removeFromTimeQueue(TimeQueue *queue, ProcessControlBlock *PCB);
+void GetFirstPCBinTimeQueue(ProcessControlBlock **pcb, TimeQueue *queue);
+BOOL DectectTimeQueue(TimeQueue *queue, ProcessControlBlock *pcb);
+
 #endif

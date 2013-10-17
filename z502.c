@@ -2469,7 +2469,7 @@ void CreateLock(INT32 *RequestedMutex, char *CallingRoutine) {
 	ErrorFound = pthread_mutexattr_init( &Attribute );
 	if ( ErrorFound != FALSE )
 	printf( "Error in pthread_mutexattr_init in CreateLock\n" );
-	ErrorFound = pthread_mutexattr_settype( &Attribute, PTHREAD_MUTEX_ERRORCHECK_NP );
+	ErrorFound = pthread_mutexattr_settype( &Attribute, PTHREAD_MUTEX_ERRORCHECK );
 	if ( ErrorFound != FALSE )
 	printf( "Error in pthread_mutexattr_settype in CreateLock\n" );
 	ErrorFound = pthread_mutex_init( &(LocalMutex[NextMutexToAllocate]), &Attribute );
